@@ -1,0 +1,17 @@
+apiVersion: v1
+entries:
+  prometheus-net-discovery:
+  - apiVersion: v2
+    appVersion: 1.1.8
+    created: "2025-06-24T05:23:17.094999882Z"
+    description: Helm chart prometheus-net-discovery. Discover network hosts and opend
+      ports.
+    digest: 9164eb7675bc6c0ff612f024a1aabbb8f3a7c2d2f032af2ea04fec19a5584232
+    name: prometheus-net-discovery
+    sources:
+    - https://github.com/legolego621/prometheus-net-discovery
+    type: application
+    urls:
+    - prometheus-net-discovery-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-06-24T05:23:17.095003969Z"
