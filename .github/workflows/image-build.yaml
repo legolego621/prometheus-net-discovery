@@ -8,6 +8,7 @@ on:
 env:
   DOCKEFILE_NAME: Dockerfile
   DOCKER_REPOSITORY: londinzer/prometheus-net-discovery
+
 jobs:
     build:
       name: docker image push
@@ -25,7 +26,7 @@ jobs:
           id: build-docker-image
           run: |
             ls -la 
-            docker build . -f ${{DOCKEFILE_NAME}} -t ${{DOCKER_REPOSITORY}}:latest
+            docker build . -f ${DOCKEFILE_NAME} -t ${DOCKER_REPOSITORY}:latest
         - name: push
           id: push-docker-image
-          run: docker push ${{DOCKER_REPOSITORY}}:latest
+          run: docker push ${DOCKER_REPOSITORY}:latest
