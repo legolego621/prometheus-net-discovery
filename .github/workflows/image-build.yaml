@@ -18,8 +18,8 @@ jobs:
         - name: login
           id: docker-hub
           env:
-            DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USER}}
-            DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
+            DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USER }}
+            DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
           run: |
             echo $DOCKERHUB_TOKEN | docker login docker.io -u $DOCKERHUB_USERNAME --password-stdin
         - name: build
