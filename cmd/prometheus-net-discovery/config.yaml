@@ -1,0 +1,35 @@
+
+## Global config
+global:
+  ## instance id of prometheus-net-discovery. Additional label to identify prometheus-net-discovery.
+  instanceId: prometheus-net-discovery
+
+## Scanners config
+scanners:
+  ## Network name (required)
+  - network: net-example
+    ## Interval of discovery. It means how often to scan network.
+    interval: 30m
+    ## Deep scan of network - full scan all hosts in network (offline and online).
+    ## It consumes more time, but it can find more hosts (if icmp is disabled on host).
+    deep: true
+    ## Concurrency of discovery. It means how many hosts to scan in parallel.
+    ## Cuncurrency uses more resources, reduces time of discovery.
+    ## for disable concurrency - set it to 0.
+    concurrency: 10
+    ## Targets of network (required)
+    ## support CIDR and single IP and range of IP
+    ## - 192.168.30.0/29
+    ## - 192.168.30.1
+    ## - 192.168.30.1-5
+    targets:
+      - 192.168.30.0/29
+    ## Allow ICMP ping discovery (optional)
+    ping: true
+    ## Discovery ports (optional)
+    ## support single port and range of ports (now only tcp)
+    ## - 1-1024
+    ## - 135-139
+    ## - 445
+    ports:
+      - 1-1024,135-139,445,1433-1434,3306,3389,5000-5100,5432,5900-5910,6379,8000-8100,8443,27017
