@@ -27,4 +27,4 @@ jobs:
           skip_existing: true
           packages_with_index: true
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
