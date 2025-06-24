@@ -17,11 +17,8 @@ jobs:
         - uses: actions/checkout@v2
         - name: login
           id: docker-hub
-          env:
-            username: ${{secrets.DOCKERHUB_USER}}
-            password: ${{secrets.DOCKERHUB_TOKEN}}
           run: |
-            echo $DOCKERHUB_TOKEN | docker login docker.io -u $USERNAME --password-stdin
+            echo ${{secrets.DOCKERHUB_TOKEN}} | docker login docker.io -u ${{secrets.DOCKERHUB_USER}} --password-stdin
         - name: build
           id: build-docker-image
           run: |
