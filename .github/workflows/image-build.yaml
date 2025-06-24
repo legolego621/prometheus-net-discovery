@@ -21,7 +21,7 @@ jobs:
             username: ${{secrets.DOCKERHUB_USER}}
             password: ${{secrets.DOCKERHUB_TOKEN}}
           run: |
-            docker login -u $username -p $password 
+            echo $DOCKERHUB_TOKEN | docker login docker.io -u $USERNAME --password-stdin
         - name: build
           id: build-docker-image
           run: |
