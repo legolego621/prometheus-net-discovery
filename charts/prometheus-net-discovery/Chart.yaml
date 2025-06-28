@@ -3,6 +3,6 @@ name: prometheus-net-discovery
 description: Helm chart prometheus-net-discovery. Discover network hosts and opend ports.
 type: application
 version: 0.1.0
-appVersion: "1.1.8"
+appVersion: "1.0.0"
 sources:
   - https://github.com/legolego621/prometheus-net-discovery
