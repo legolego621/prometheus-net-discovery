@@ -27,6 +27,8 @@ USER ${APP_NAME}
 
 WORKDIR /app
 
+COPY --from=builder /build/${APP_NAME} /bin/
+
 RUN ln -s /bin/${APP_NAME} /app/entrypoint
 
 ENTRYPOINT ["/app/entrypoint"]
