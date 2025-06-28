@@ -13,7 +13,6 @@ RUN CGO_ENABLED=0 GOOS=linux \
 FROM alpine:3.22.0
 
 ARG APP_NAME=prometheus-net-discovery
-ARG VERSION=latest
 ARG UID=65532
 ARG GID=65532
 

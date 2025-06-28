@@ -5,10 +5,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      ## download repository
       - name: checkout
         uses: actions/checkout@v4
-      ## run lint
       - name: lint
         uses: golangci/golangci-lint-action@v8
         with:
