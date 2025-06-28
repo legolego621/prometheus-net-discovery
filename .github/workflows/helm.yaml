@@ -1,9 +1,13 @@
-name: Release Charts
+name: helm
 
 on:
   push:
     branches:
-      - main
+      - "main"
+    tags:
+      - "v*.*.*"
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   release:
