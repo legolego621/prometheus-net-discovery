@@ -1,0 +1,27 @@
+name: check
+on: push
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      ## download repository
+      - name: checkout
+        uses: actions/checkout@v4
+      ## run lint
+      - name: lint
+        uses: golangci/golangci-lint-action@v8
+        with:
+          version: v2.1
+          args: --config .golangci.yml
+  test:
+    needs: [lint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: download dependencies
+        run: go mod download
+      - name: run tests
+        run: go test -v ./...
+        
