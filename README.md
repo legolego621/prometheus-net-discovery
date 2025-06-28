@@ -43,7 +43,7 @@ docker run --rm --name prometheus-net-discovery \
 ### Helm chart (kubernetes)
 
 ```bash
-helm repo add prometheus-net-discovery https://londinz.github.io/helm-charts
+helm repo add prometheus-net-discovery https://legolego621.github.io/prometheus-net-discovery
 helm install prometheus-net-discovery prometheus-net-discovery/prometheus-net-discovery
 ```
 
