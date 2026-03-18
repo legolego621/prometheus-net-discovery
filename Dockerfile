@@ -1,5 +1,5 @@
 # build golang application
-FROM golang:1.24.4 AS builder
+FROM golang:1.25.3 AS builder
 
 ARG APP_NAME
 ARG BUILD_PATH=./cmd/${APP_NAME}

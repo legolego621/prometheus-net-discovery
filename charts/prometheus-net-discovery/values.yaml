@@ -142,7 +142,7 @@ config:
     #   ## It consumes more time, but it can find more hosts (if icmp is disabled on host).
     #   deep: true
     #   ## Concurrency of discovery. It means how many hosts to scan in parallel.
-    #   ## Cuncurrency uses more resources, reduces time of discovery.
+    #   ## Concurrency uses more resources, reduces time of discovery.
     #   ## for disable concurrency - set it to 0.
     #   concurrency: 10
     #   ## Targets of network (required)

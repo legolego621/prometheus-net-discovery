@@ -7,11 +7,13 @@ import (
 	"prometheus-net-discovery/internal/netops/host"
 	"slices"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
 	"github.com/Ullaakut/nmap/v3"
 	"github.com/alitto/pond/v2"
+	log "github.com/sirupsen/logrus"
 )
 
 type Scan struct {
@@ -20,6 +22,23 @@ type Scan struct {
 	ping        bool
 	ports       []string
 	targets     []string
+}
+
+// logWarnings logs nmap warnings but filters out non-critical ones like RTTVAR.
+func logWarnings(scanType string, warnings []string) {
+	var criticalWarnings []string
+	for _, w := range warnings {
+		// RTTVAR warnings are normal network adaptation, not errors
+		if !strings.Contains(w, "RTTVAR has grown") {
+			criticalWarnings = append(criticalWarnings, w)
+		}
+	}
+
+	if len(criticalWarnings) > 0 {
+		log.Warnf("%s warnings: %v", scanType, criticalWarnings)
+	} else {
+		log.Debugf("%s: ignoring non-critical RTTVAR warnings (%d total)", scanType, len(warnings))
+	}
 }
 
 func NewScan(options ...Option) (*Scan, error) {
@@ -108,6 +127,8 @@ func (s *Scan) pingScan(ctx context.Context) ([]*host.Host, time.Duration, error
 	nmapOptons := []nmap.Option{
 		nmap.WithTargets(s.targets...),
 		nmap.WithPingScan(),
+		// Add timeouts to prevent hanging on slow hosts
+		nmap.WithTimingTemplate(nmap.TimingAggressive), // -T4
 	}
 
 	scanner, err := nmap.NewScanner(ctx, nmapOptons...)
@@ -122,8 +143,9 @@ func (s *Scan) pingScan(ctx context.Context) ([]*host.Host, time.Duration, error
 		return nil, 0, fmt.Errorf("unable to run nmap scan: %w", err)
 	}
 
+	// Log warnings but don't fail on RTTVAR warnings (normal network adaptation)
 	if len(*warnings) > 0 {
-		return nil, 0, fmt.Errorf("nmap scan has problems: %s", *warnings)
+		logWarnings("ping scan", *warnings)
 	}
 
 	var hosts []*host.Host
@@ -151,6 +173,8 @@ func (s *Scan) portsScan(ctx context.Context, targets []string) ([]*host.Host, t
 	nmapOptons := []nmap.Option{
 		nmap.WithTargets(targets...),
 		nmap.WithPorts(s.ports...),
+		// Add timeouts to prevent hanging on slow hosts
+		nmap.WithTimingTemplate(nmap.TimingAggressive), // -T4
 	}
 
 	if s.deep {
@@ -169,8 +193,9 @@ func (s *Scan) portsScan(ctx context.Context, targets []string) ([]*host.Host, t
 		return nil, 0, fmt.Errorf("unable to run nmap scanner: %w", err)
 	}
 
+	// Log warnings but don't fail on RTTVAR warnings (normal network adaptation)
 	if len(*warnings) > 0 {
-		return nil, 0, fmt.Errorf("nmap scanner has problems: %s", *warnings)
+		logWarnings("ports scan", *warnings)
 	}
 
 	var hosts []*host.Host

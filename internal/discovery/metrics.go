@@ -88,6 +88,9 @@ func (d *Discovery) Describe(ch chan<- *prometheus.Desc) {
 }
 
 func (d *Discovery) Collect(ch chan<- prometheus.Metric) {
+	d.mu.RLock()
+	defer d.mu.RUnlock()
+
 	for net, report := range d.Reports {
 		for _, h := range report.DiscoveredHosts {
 			for _, p := range h.Ports {

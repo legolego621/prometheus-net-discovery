@@ -36,7 +36,7 @@ func (s *Scanner) Scan(ctx context.Context) ([]*host.Host, time.Duration, error)
 	}
 
 	if s.Concurrency > 0 {
-		scanOptions = append(scanOptions, scan.WithCuncurrency(s.Concurrency))
+		scanOptions = append(scanOptions, scan.WithConcurrency(s.Concurrency))
 	}
 	if s.Deep {
 		scanOptions = append(scanOptions, scan.WithDeep())
