@@ -7,10 +7,14 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+      - name: setup go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.3'
       - name: lint
         uses: golangci/golangci-lint-action@v8
         with:
-          version: v2.1
+          version: latest
           args: --config .golangci.yml
   test:
     needs: [lint]
@@ -18,6 +22,10 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+      - name: setup go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.3'
       - name: download dependencies
         run: go mod download
       - name: run tests
