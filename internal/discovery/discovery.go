@@ -6,6 +6,7 @@ import (
 	"prometheus-net-discovery/internal/config"
 	"prometheus-net-discovery/internal/netops/scanner"
 	"strings"
+	"sync"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -17,6 +18,7 @@ type Discovery struct {
 	Scanners   []*scanner.Scanner `yaml:"scanners"`
 	Reports    map[string]*Report
 	Metrics    *Metrics
+	mu         sync.RWMutex // protects Reports map
 }
 
 func New(c *config.Config) *Discovery {
@@ -108,8 +110,11 @@ func (d *Discovery) runScanner(ctx context.Context, s *scanner.Scanner) error {
 				}
 			}
 
-			// set metrics
+			// set metrics (with mutex protection against race condition)
+			d.mu.Lock()
 			d.Reports[s.Network].DiscoveredHosts = hosts
+			d.mu.Unlock()
+
 			d.Metrics.CollectionDuration.WithLabelValues(s.Network).Observe(duration.Seconds())
 			d.Metrics.CollectionDurationLast.WithLabelValues(s.Network).Set(duration.Seconds())
 			d.Metrics.CollectionCount.WithLabelValues(s.Network).Inc()

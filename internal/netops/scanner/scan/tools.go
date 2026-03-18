@@ -8,9 +8,9 @@ import (
 )
 
 func targetsToIPs(targets []string) ([]string, error) {
-	largetsString := strings.Join(targets, ",")
+	targetsString := strings.Join(targets, ",")
 
-	list, err := iprange.ParseList(largetsString)
+	list, err := iprange.ParseList(targetsString)
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse targets: %w", err)
 	}

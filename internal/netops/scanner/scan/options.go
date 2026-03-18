@@ -2,7 +2,7 @@ package scan
 
 type Option func(*Scan)
 
-func WithCuncurrency(n int) Option {
+func WithConcurrency(n int) Option {
 	return func(s *Scan) {
 		s.concurrency = n
 	}
